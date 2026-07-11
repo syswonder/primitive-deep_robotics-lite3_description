@@ -1,0 +1,10 @@
+<!--
+  This file has been replaced by display.launch.py.
+  See: launch/display.launch.py
+  The atlas_register_and_launch.py now launches display.launch.py instead.
+-->
+<launch>
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" name="robot_state_publisher">
+    <param name="robot_description" value="PLACEHOLDER — use display.launch.py instead"/>
+  </node>
+</launch>

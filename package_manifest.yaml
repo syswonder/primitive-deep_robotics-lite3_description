@@ -1,0 +1,41 @@
+# lite3_description — static TF wrapper for Deep Robotics Lite3.
+#
+# Stand-in for `system.soma` (URDF + robot_state_publisher), which is
+# on the v0.2 robonix roadmap but not yet shipped. Until soma lands,
+# the deploy needs SOMETHING to publish the static edge from `base_link`
+# to each sensor mount frame, otherwise rtabmap's RGBD path silently
+# fails TF lookups and nav goals land in the wrong place.
+#
+# Runtime shape:
+#   - scripts/build.sh runs `rbnx codegen` (atlas_pb2 stubs).
+#   - scripts/start.sh execs `python3 -m lite3_description.main`, which:
+#       1. Spawns `ros2 launch display.launch.py` (robot_state_publisher
+#          + joint_state_publisher) as a child process group.
+#       2. Primitive.run() registers on atlas + heartbeats.
+#       3. rbnx boot auto-promotes to ACTIVE (no driver → no CMD_INIT).
+#       4. @lite3_description.on_shutdown kills the subprocess — same SIGTERM →
+#          SIGKILL escalation as lite3_quadruped and mid360_lidar.
+#
+# When soma ships, drop this package from the deploy manifest and point
+# system.soma.urdf_path at the proper URDF — this whole package becomes
+# a no-op and can be removed.
+manifestVersion: 1
+
+package:
+  name: com.robonix.lite3.description
+  version: 0.1.0
+  vendor: robonix
+  description: Lite3 static TF stand-in until system.soma ships.
+  license: Apache-2.0
+
+capability_id: lite3_description
+
+build: bash scripts/build.sh
+start: bash scripts/start.sh
+
+
+# Built-in chassis contracts (live under <robonix>/capabilities/primitive/chassis/).
+# We don't redeclare them locally — primitives reuse the canonical
+# contract surface. Only skills need package-local capabilities/.
+capabilities:
+  - name: robonix/primitive/lite3/description
