@@ -22,11 +22,14 @@
 manifestVersion: 1
 
 package:
-  name: com.robonix.lite3.description
+  name: robonix.primitive.deep_robotics.lite3.description
   version: 0.1.0
   vendor: robonix
-  description: Lite3 static TF stand-in until system.soma ships.
+  description: Deep Robotics Lite3 URDF and fixed sensor transform publisher.
   license: Apache-2.0
+  tags: [primitive, description, urdf, tf, deep_robotics, lite3, ros2]
+  maintainers:
+    - Bunnycxk <2501213313@stu.pku.edu.cn>
 
 capability_id: lite3_description
 
